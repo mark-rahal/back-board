@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    //override the POST request so it becomes a PATCH request
+    form(method='POST', action='/thread/edit/' + thread.id + '?_method=PATCH')
+        label Title:
+        br
+        input.form-control(name='title', type='text', value=thread.title)
+        br
+        label Content:
+        br
+        input.form-control(name='content', type='text', value=thread.content)
+        br
+        input.btn.btn-primary(type='submit', value="Update Thread")

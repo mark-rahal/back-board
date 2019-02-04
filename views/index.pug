@@ -2,6 +2,15 @@ extends layout
 
 block content
   h1= title
-  a(href='/thread/1') Thread #1
-  br
-  a(href='/thread/2') Thread #2
+  h2= desc
+  a(href='/thread/create') Create new thread
+  hr
+  ul
+    each thread in threads
+      li
+        a(href='/thread/view/' + thread.id) #{thread.title}
+          br
+          a(href='/thread/edit/' + thread.id) Edit
+          //override the POST request so it becomes a DELETE request
+          form(method='POST', action='/thread/delete/' + thread.id + '?_method=DELETE')
+            input.btn.btn-danger(type='submit', value="Delete")

@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    form(method='POST' action='/thread/create')
+        label Title:
+        br
+        input.form-control(name='title', type='text')
+        br
+        label Content:
+        br
+        input.form-control(name='content', type='text')
+        br
+        input.btn.btn-primary(type='submit', value="Post Thread")
