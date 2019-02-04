@@ -2,9 +2,9 @@ var mysql = require('mysql');
 
 //db
 var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
+    host: 'den1.mysql2.gear.host',
+    user: 'msgboard',
+    password: 'Gn2EQ-z_5mj6',
     database: 'msgboard'
 });
 
