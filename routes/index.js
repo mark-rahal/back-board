@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var db = require('./../db');
+const express = require('express');
+const router = express.Router();
+const db = require('./../db');
+const async = require('async');
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -18,12 +19,22 @@ router.get('/', function (req, res) {
 /* Get request to view individual thread */
 router.get('/thread/view/:id', function (req, res) {
     console.log('finding thread with id ' + req.params.id + ' in DB...');
-    let sql = "SELECT * FROM threads WHERE id = ?";
-    db.query(sql, req.params.id, function (err, result) {
+    let sqlThread = "SELECT * FROM threads WHERE id = ?";
+
+    db.query(sqlThread, req.params.id, function (err, result) {
         if (err)
             console.log(err);
         else {
-            res.render('thread', {thread: result[0]});
+            let resultThread = result[0];
+            let sqlReplies = "SELECT * FROM replies WHERE parent = ?";
+            db.query(sqlReplies, req.params.id, function(err, result) {
+                if (err)
+                    console.log(err);
+                else {
+                    let resultReplies = result;
+                    res.render('thread', {thread: resultThread, replies: resultReplies});
+                }
+            });
         }
     });
 });
@@ -80,6 +91,25 @@ router.patch('/thread/edit/:id', function (req, res) {
             console.log(err);
         else {
             res.redirect('/');
+        }
+    });
+});
+
+//GET request for thread reply creation page
+router.get('/thread/:id/create/reply', function (req, res) {
+    console.log(req.params.id);
+    res.render('createreply', {id: req.params.id});
+});
+
+//POST request to create a new reply
+router.post('/thread/:id/create/reply', function (req, res) {
+    console.log(req.params.id);
+    let sql = "INSERT INTO replies (id, parent, content) VALUES (NULL, '" + req.params.id + "', '" + req.body.content + "')";
+    db.query(sql, function (err, result) {
+        if (err)
+            console.log(err);
+        else {
+            res.redirect('/thread/view/' + req.params.id);
         }
     });
 });

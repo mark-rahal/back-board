@@ -1,7 +1,7 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 
 //db
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
     host: 'den1.mysql2.gear.host',
     user: 'msgboard',
     password: 'Gn2EQ-z_5mj6',

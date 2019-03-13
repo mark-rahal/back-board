@@ -3,3 +3,6 @@ extends layout
 block content
     h1= thread.title
     h2= thread.content
+    each reply in replies
+        p= reply.content
+    a(href='/thread/' + thread.id + '/create/reply') Create Reply
