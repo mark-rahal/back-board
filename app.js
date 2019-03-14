@@ -5,8 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-const indexRouter = require('./routes/index');
-const threadRouter = require('./routes/thread');
+const indexRouter = require('./routes/indexrouter');
+const threadRouter = require('./routes/threadrouter');
 
 const app = express();
 
