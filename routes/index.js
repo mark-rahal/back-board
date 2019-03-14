@@ -123,4 +123,7 @@ router.post('/thread/:id/create/reply', function (req, res) {
     });
 });
 
-module.exports = router;
+module.exports = {
+    router,
+
+};
