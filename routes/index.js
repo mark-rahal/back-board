@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const db = require('./../db');
-const async = require('async');
 
 /* GET home page. */
 router.get('/', function (req, res) {

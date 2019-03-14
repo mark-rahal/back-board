@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "@types/express": "^4.16.1",
-    "async": "^2.6.2",
     "body-parser": "^1.18.3",
     "component-classes": "^1.2.6",
     "cookie-parser": "~1.4.3",
