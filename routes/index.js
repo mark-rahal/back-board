@@ -19,14 +19,14 @@ router.get('/', function (req, res) {
 /* Get request to view individual thread */
 router.get('/thread/view/:id', function (req, res) {
     console.log('finding thread with id ' + req.params.id + ' in DB...');
-    let sqlThread = "SELECT * FROM threads WHERE id = ?";
+    let sqlThread = "SELECT * FROM threads WHERE ID = ?";
 
     db.query(sqlThread, req.params.id, function (err, result) {
         if (err)
             console.log(err);
         else {
             let resultThread = result[0];
-            let sqlReplies = "SELECT * FROM replies WHERE parent = ?";
+            let sqlReplies = "SELECT * FROM replies WHERE ParentPost = ?";
             db.query(sqlReplies, req.params.id, function(err, result) {
                 if (err)
                     console.log(err);
@@ -46,9 +46,9 @@ router.get('/thread/create', function (req, res) {
 
 /* POST request to create a new thread */
 router.post('/thread/create', function (req, res) {
-    let sql = "INSERT INTO threads (id, title, content) VALUES (NULL, '" + req.body.title + "', '" + req.body.content + "')";
-
-    db.query(sql, function (err) {
+    let sql = "INSERT INTO threads (ID, Title, Content) VALUES (NULL, ?, ?)";
+    let params = [req.body.title, req.body.content]
+    db.query(sql, params, function (err) {
         if (err) {
             console.log(err);
         } else {
@@ -59,12 +59,21 @@ router.post('/thread/create', function (req, res) {
 
 /* DELETE request to delete a thread */
 router.delete('/thread/delete/:id', function (req, res) {
-    let sql = "DELETE FROM threads WHERE id = ?";
-    db.query(sql, req.params.id, function (err) {
+    //delete all replies to the post first
+    let sqlReplies = "DELETE FROM replies WHERE ParentPost = ?";
+    db.query(sqlReplies, req.params.id, function(err) {
         if (err) {
             console.log(err);
-        } else {
-            res.redirect('/');
+        }
+        else {
+            let sqlThread = "DELETE FROM threads WHERE ID = ?";
+            db.query(sqlThread, req.params.id, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.redirect('/');
+                }
+            });
         }
     });
 });
@@ -72,7 +81,7 @@ router.delete('/thread/delete/:id', function (req, res) {
 /* GET request to edit a thread */
 router.get('/thread/edit/:id', function (req, res) {
     console.log('finding thread with id ' + req.params.id + ' in DB...');
-    let sql = "SELECT * FROM threads WHERE id = ?";
+    let sql = "SELECT * FROM threads WHERE ID = ?";
     db.query(sql, req.params.id, function (err, result) {
         if (err)
             console.log(err);
@@ -84,9 +93,9 @@ router.get('/thread/edit/:id', function (req, res) {
 
 /* PATCH request to edit a thread */
 router.patch('/thread/edit/:id', function (req, res) {
-    let sql = "UPDATE threads SET title = '" + req.body.title + "', content = '" + req.body.content + "' WHERE id = " +
-        req.params.id;
-    db.query(sql, req.params.id, function (err, result) {
+    let sql = "UPDATE threads SET Title = ?, Content = ? WHERE ID = ?";
+    let params = [req.body.title, req.body.content, req.params.id];
+    db.query(sql, params, function (err, result) {
         if (err)
             console.log(err);
         else {
@@ -104,8 +113,9 @@ router.get('/thread/:id/create/reply', function (req, res) {
 //POST request to create a new reply
 router.post('/thread/:id/create/reply', function (req, res) {
     console.log(req.params.id);
-    let sql = "INSERT INTO replies (id, parent, content) VALUES (NULL, '" + req.params.id + "', '" + req.body.content + "')";
-    db.query(sql, function (err, result) {
+    let sql = "INSERT INTO replies (id, Content, ParentPost) VALUES (NULL, ?, ?)";
+    let params = [req.body.content, req.params.id];
+    db.query(sql, params, function (err, result) {
         if (err)
             console.log(err);
         else {

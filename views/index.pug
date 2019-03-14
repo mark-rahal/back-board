@@ -8,9 +8,9 @@ block content
   ul
     each thread in threads
       li
-        a(href='/thread/view/' + thread.id) #{thread.title}
+        a(href='/thread/view/' + thread.ID) #{thread.Title}
           br
-          a(href='/thread/edit/' + thread.id) Edit
+          a(href='/thread/edit/' + thread.ID) Edit
           //override the POST request so it becomes a DELETE request
-          form(method='POST', action='/thread/delete/' + thread.id + '?_method=DELETE')
+          form(method='POST', action='/thread/delete/' + thread.ID + '?_method=DELETE')
             input.btn.btn-danger(type='submit', value="Delete")

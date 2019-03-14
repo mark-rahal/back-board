@@ -1,8 +1,8 @@
 extends layout
 
 block content
-    h1= thread.title
-    h2= thread.content
+    h1= thread.Title
+    h2= thread.Content
     each reply in replies
-        p= reply.content
-    a(href='/thread/' + thread.id + '/create/reply') Create Reply
+        p= reply.Content
+    a(href='/thread/' + thread.ID + '/create/reply') Create Reply
