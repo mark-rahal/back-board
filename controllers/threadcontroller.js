@@ -26,13 +26,21 @@ exports.getThreadCreate = function (req, res) {
     res.render('create');
 };
 
+exports.validateThreadBody = function (req, res, next) {
+    if (req.body.title === '' || req.body.content === '') {
+        res.status(204).send(new Error("Missing title or content, or both."));
+    }
+    else {
+        next();
+    }
+};
+
 exports.postThreadCreate = function (req, res) {
     let sql = "INSERT INTO threads (ID, Title, Content) VALUES (NULL, ?, ?)";
     let params = [req.body.title, req.body.content];
     db.query(sql, params, function (err) {
         if (err) {
             console.log(err);
-            throw err;
         } else {
             res.redirect('/');
         }
@@ -74,7 +82,7 @@ exports.getThreadEdit = function (req, res) {
 exports.patchThreadEdit = function (req, res) {
     let sql = "UPDATE threads SET Title = ?, Content = ? WHERE ID = ?";
     let params = [req.body.title, req.body.content, req.params.id];
-    db.query(sql, params, function (err, result) {
+    db.query(sql, params, function (err) {
         if (err)
             console.log(err);
         else {
