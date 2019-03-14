@@ -3,6 +3,7 @@ import {describe} from "mocha";
 const assert = require('assert');
 const routeFunctions = require('/../../controllers/threadcontroller');
 
+/*
 describe('Create Thread', function () {
     it('Should give error if a thread title and content are missing.', function () {
         let req = {
@@ -15,3 +16,4 @@ describe('Create Thread', function () {
         routeFunctions.postThreadCreate(req, res);
     });
 });
+*/
