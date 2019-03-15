@@ -28,7 +28,7 @@ exports.getThreadCreate = function (req, res) {
 
 exports.validateThreadBody = function (req, res, next) {
     if (req.body.title === '' || req.body.content === '') {
-        res.status(204).send(new Error("Missing title or content, or both."));
+        res.status(422).send(new Error("Missing title or content, or both."));
     }
     else {
         next();

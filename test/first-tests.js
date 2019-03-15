@@ -5,7 +5,7 @@ const httpMocks = require('node-mocks-http');
 
 
 mocha.describe('Create Thread', function () {
-    it('Should respond with status code 204 if a thread title and content are missing.', function () {
+    it('Should respond with status code 422 if a thread title and content are missing.', function () {
         let req = httpMocks.createRequest({
             method: 'POST',
             url: '/thread/create',
@@ -16,10 +16,10 @@ mocha.describe('Create Thread', function () {
 
         routeFunctions.validateThreadBody(req, res, function() {});
         console.log(res.statusCode);
-        assert.strictEqual(res.statusCode, 204);
+        assert.strictEqual(res.statusCode, 422);
     });
 
-    it('Should respond with status code 204 if only thread title is missing', function () {
+    it('Should respond with status code 422 if only thread title is missing', function () {
         let req = httpMocks.createRequest({
             method: 'POST',
             url: '/thread/create',
@@ -30,10 +30,10 @@ mocha.describe('Create Thread', function () {
 
         routeFunctions.validateThreadBody(req, res, function() {});
         console.log(res.statusCode);
-        assert.strictEqual(res.statusCode, 204);
+        assert.strictEqual(res.statusCode, 422);
     });
 
-    it('Should respond with status code 204 if only thread content is missing', function () {
+    it('Should respond with status code 422 if only thread content is missing', function () {
         let req = httpMocks.createRequest({
             method: 'POST',
             url: '/thread/create',
@@ -44,6 +44,19 @@ mocha.describe('Create Thread', function () {
 
         routeFunctions.validateThreadBody(req, res, function() {});
         console.log(res.statusCode);
-        assert.strictEqual(res.statusCode, 204);
+        assert.strictEqual(res.statusCode, 422);
+    });
+
+    it('Should respond with status code 200 if thread title and content were entered.', function () {
+        let req = httpMocks.createRequest({
+            method: 'POST',
+            url: '/thread/create',
+            body: {title: 'Test title', content: 'Test Content'}
+        });
+
+        let res = httpMocks.createResponse();
+        routeFunctions.validateThreadBody(req, res, function() {});
+        console.log(res.statusCode);
+        assert.strictEqual(res.statusCode, 200);
     });
 });
