@@ -15,7 +15,6 @@ mocha.describe('Create Thread', function () {
         let res = httpMocks.createResponse();
 
         routeFunctions.validateThreadBody(req, res, function() {});
-        console.log(res.statusCode);
         assert.strictEqual(res.statusCode, 422);
     });
 
@@ -29,7 +28,6 @@ mocha.describe('Create Thread', function () {
         let res = httpMocks.createResponse();
 
         routeFunctions.validateThreadBody(req, res, function() {});
-        console.log(res.statusCode);
         assert.strictEqual(res.statusCode, 422);
     });
 
@@ -43,7 +41,6 @@ mocha.describe('Create Thread', function () {
         let res = httpMocks.createResponse();
 
         routeFunctions.validateThreadBody(req, res, function() {});
-        console.log(res.statusCode);
         assert.strictEqual(res.statusCode, 422);
     });
 
@@ -56,7 +53,6 @@ mocha.describe('Create Thread', function () {
 
         let res = httpMocks.createResponse();
         routeFunctions.validateThreadBody(req, res, function() {});
-        console.log(res.statusCode);
         assert.strictEqual(res.statusCode, 200);
     });
 });

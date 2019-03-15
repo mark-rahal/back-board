@@ -1,7 +1,8 @@
 extends layout
 
 block content
-    form(method='POST' action='/thread/create')
+    script(type='text/javascript' src='/javascript/validate.js')
+    form(name='threadCreate' action='/thread/create' onsubmit='return validateThreadForm()' method='POST')
         label Title:
         br
         input.form-control(name='title', type='text')
