@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  script(type='text/javascript' src='/javascript/confirmdelete.js')
   h1= title
   h2= desc
   a(href='/thread/create') Create new thread
@@ -12,5 +13,6 @@ block content
           br
           a(href='/thread/edit/' + thread.ID) Edit
           //override the POST request so it becomes a DELETE request
-          form(method='POST', action='/thread/delete/' + thread.ID + '?_method=DELETE')
-            input.btn.btn-danger(type='submit', value="Delete")
+          form(method='POST', action='/thread/delete/' + thread.ID + '?_method=DELETE' onsubmit="return confirmDelete("
+          + thread.ID + ")")
+            input.btn.btn-primary(class='link' type='submit', value="Delete")
