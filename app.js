@@ -6,6 +6,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const indexRouter = require('./routes/indexrouter');
+const threadRouter = require('./routes/threadrouter');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/user/', function(req, res, next) {
 });
 
 app.use('/', indexRouter);
+app.use('/thread', threadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

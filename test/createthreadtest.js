@@ -3,7 +3,6 @@ const assert = require('assert');
 const routeFunctions = require('../controllers/threadcontroller');
 const httpMocks = require('node-mocks-http');
 
-
 mocha.describe('Create Thread', function () {
     it('Should respond with status code 422 if a thread title and content are missing.', function () {
         let req = httpMocks.createRequest({
