@@ -1,0 +1,36 @@
+version: '3.7'
+
+networks:
+  bb-net:
+    name: bb-net
+    driver: bridge
+
+services:
+  backboard:
+    image: node:latest
+    container_name: backboard
+    tty: TRUE
+    networks: 
+      - bb-net
+    ports:
+      - '3000:3000'
+    working_dir: /app
+    volumes:
+      - './app:/app:rw'
+    depends_on:
+      - bb-db
+    command: bash -c 'DEV=true DOCKER=true npm start > /var/log/bb.log'
+  
+  bb-db:
+    image: mysql:5.7
+    container_name: bb-db
+    networks:
+      - bb-net
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=TRUE
+      - MYSQL_DATABASE=Backboard
+    working_dir: /data
+    volumes:
+      - './data:/data:rw'
