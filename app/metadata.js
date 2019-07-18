@@ -23,9 +23,9 @@ exports.getConnectionConfig = () => {
     else {
         //will use aws userdata later
         var connectionConfig = {
-            dbHost: process.env.DB_HOST,
-            dbUser: process.env.DB_USER,
-            dbPassword: process.env.DB_PW,
+            dbHost: process.env.RDS_HOSTNAME,
+            dbUser: process.env.RDS_USERNAME,
+            dbPassword: process.env.RDS_PASSWORD,
             dbName: 'Backboard'
         };
         return connectionConfig;
