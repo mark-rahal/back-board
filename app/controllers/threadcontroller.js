@@ -2,14 +2,14 @@ const db = require('./../db');
 
 exports.getThreadView = function (req, res) {
     console.log('finding thread with id ' + req.params.id + ' in DB...');
-    let sqlThread = "SELECT * FROM threads WHERE ID = ?";
+    let sqlThread = "SELECT * FROM Thread WHERE ID = ?";
 
     db.query(sqlThread, req.params.id, function (err, result) {
         if (err)
             console.log(err);
         else {
             let resultThread = result[0];
-            let sqlReplies = "SELECT * FROM replies WHERE ParentPost = ?";
+            let sqlReplies = "SELECT * FROM Reply WHERE ParentPost = ?";
             db.query(sqlReplies, req.params.id, function(err, result) {
                 if (err)
                     console.log(err);
@@ -36,7 +36,7 @@ exports.validateThreadBody = function (req, res, next) {
 };
 
 exports.postThreadCreate = function (req, res) {
-    let sql = "INSERT INTO threads (ID, Title, Content) VALUES (NULL, ?, ?)";
+    let sql = "INSERT INTO Thread (ID, Title, Content) VALUES (NULL, ?, ?)";
     let params = [req.body.title, req.body.content];
     db.query(sql, params, function (err) {
         if (err) {
@@ -49,13 +49,13 @@ exports.postThreadCreate = function (req, res) {
 
 exports.deleteThread = function (req, res) {
     //delete all replies to the post first
-    let sqlReplies = "DELETE FROM replies WHERE ParentPost = ?";
+    let sqlReplies = "DELETE FROM Reply WHERE ParentPost = ?";
     db.query(sqlReplies, req.params.id, function(err) {
         if (err) {
             console.log(err);
         }
         else {
-            let sqlThread = "DELETE FROM threads WHERE ID = ?";
+            let sqlThread = "DELETE FROM Thread WHERE ID = ?";
             db.query(sqlThread, req.params.id, function (err) {
                 if (err) {
                     console.log(err);
@@ -69,7 +69,7 @@ exports.deleteThread = function (req, res) {
 
 exports.getThreadEdit = function (req, res) {
     console.log('finding thread with id ' + req.params.id + ' in DB...');
-    let sql = "SELECT * FROM threads WHERE ID = ?";
+    let sql = "SELECT * FROM Thread WHERE ID = ?";
     db.query(sql, req.params.id, function (err, result) {
         if (err)
             console.log(err);
@@ -80,7 +80,7 @@ exports.getThreadEdit = function (req, res) {
 };
 
 exports.patchThreadEdit = function (req, res) {
-    let sql = "UPDATE threads SET Title = ?, Content = ? WHERE ID = ?";
+    let sql = "UPDATE Thread SET Title = ?, Content = ? WHERE ID = ?";
     let params = [req.body.title, req.body.content, req.params.id];
     db.query(sql, params, function (err) {
         if (err)
@@ -98,7 +98,7 @@ exports.getThreadCreateReply = function (req, res) {
 
 exports.postThreadCreateReply = function (req, res) {
     console.log(req.params.id);
-    let sql = "INSERT INTO replies (id, Content, ParentPost) VALUES (NULL, ?, ?)";
+    let sql = "INSERT INTO Reply (id, Content, ParentPost) VALUES (NULL, ?, ?)";
     let params = [req.body.content, req.params.id];
     db.query(sql, params, function (err, result) {
         if (err)

@@ -2,7 +2,7 @@ const db = require('./../db');
 
 exports.index = function (req, res) {
     console.log('getting threads from DB...');
-    db.query("SELECT * FROM threads", function (err, result) {
+    db.query("SELECT * FROM Thread", function (err, result) {
         if (err) {
             console.log(err);
         } else {
