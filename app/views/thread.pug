@@ -3,6 +3,10 @@ extends layout
 block content
     h1= thread.Title
     h2= thread.Content
+    form(action='/thread/edit/' + thread.Id, method='get')
+        input.btn.btn-primary(type='submit', value='Edit')
+    form(method='POST', action='/thread/delete/' + thread.Id + '?_method=DELETE' onsubmit="return confirmDelete(" + thread.ID + ")")
+        input.btn.btn-primary(type='submit', value='Delete')
     each reply in replies
         p= reply.Content
-    a(href='/thread/' + thread.ID + '/create/reply') Create Reply
+    a(href='/thread/' + thread.Id + '/create/reply') Create Reply

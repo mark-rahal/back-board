@@ -2,7 +2,7 @@ extends layout
 
 block content
     //override the POST request so it becomes a PATCH request
-    form(method='POST', action='/thread/edit/' + thread.ID + '?_method=PATCH')
+    form(method='POST', action='/thread/edit/' + thread.Id + '?_method=PATCH')
         label Title:
         br
         input.form-control(name='title', type='text', value=thread.Title)

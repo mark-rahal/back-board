@@ -1,18 +1,17 @@
 extends layout
 
 block content
+  div(class='container')
+    div(class='title')
+      h1= title
+    div(class='desc')
+      h3= desc
+      form(action='/thread/create' method='get')
+        input.btn.btn-primary(type='submit' value='Create new thread')
+    div(class='threads')
+        each thread in threads
+          a(class='thread-link' href='/thread/view/' + thread.Id)
+            div(class='thread')
+              p(class='thread-title') #{thread.Title}
   script(type='text/javascript' src='/javascript/confirmdelete.js')
-  h1= title
-  h2= desc
-  a(href='/thread/create') Create new thread
-  hr
-  ul
-    each thread in threads
-      li
-        a(href='/thread/view/' + thread.ID) #{thread.Title}
-          br
-          a(href='/thread/edit/' + thread.ID) Edit
-          //override the POST request so it becomes a DELETE request
-          form(method='POST', action='/thread/delete/' + thread.ID + '?_method=DELETE' onsubmit="return confirmDelete("
-          + thread.ID + ")")
-            input.btn.btn-primary(class='link' type='submit', value="Delete")
+  script(type='text/javascript' src='/javascript/randomcolor.js')

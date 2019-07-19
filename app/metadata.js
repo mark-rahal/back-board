@@ -21,7 +21,7 @@ exports.getConnectionConfig = () => {
         return connectionConfig;
     }
     else {
-        //will use aws userdata later
+        //elastic beanstalk env vars
         var connectionConfig = {
             dbHost: process.env.RDS_HOSTNAME,
             dbUser: process.env.RDS_USERNAME,
