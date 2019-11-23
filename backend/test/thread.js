@@ -1,6 +1,6 @@
 const mocha = require('mocha');
 const assert = require('assert');
-const routeFunctions = require('../controllers/threadcontroller');
+const routeFunctions = require('../controllers/thread');
 const httpMocks = require('node-mocks-http');
 
 mocha.describe('Create Thread', function () {

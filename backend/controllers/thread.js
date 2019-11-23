@@ -1,6 +1,18 @@
-const db = require('./../db');
+const db = require('../db');
 
-exports.getThreadView = function (req, res) {
+exports.getAllThreads = function (req, res) {
+    console.log('getting threads from DB...');
+    db.query("SELECT * FROM Thread", function (err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result);
+            res.render('index', {title: 'Express Msg Board', desc: 'Threads', threads: result});
+        }
+    });
+};
+
+exports.getThread = function (req, res) {
     console.log('finding thread with id ' + req.params.id + ' in DB...');
     let sqlThread = "SELECT * FROM Thread WHERE ID = ?";
 
@@ -22,10 +34,6 @@ exports.getThreadView = function (req, res) {
     });
 };
 
-exports.getThreadCreate = function (req, res) {
-    res.render('create');
-};
-
 exports.validateThreadBody = function (req, res, next) {
     if (req.body.title === '' || req.body.content === '') {
         res.status(422).render('error', {error: new Error('Title and Content are required fields.')});
@@ -35,7 +43,7 @@ exports.validateThreadBody = function (req, res, next) {
     }
 };
 
-exports.postThreadCreate = function (req, res) {
+exports.createThread = function (req, res) {
     let sql = "INSERT INTO Thread (ID, Title, Content) VALUES (NULL, ?, ?)";
     let params = [req.body.title, req.body.content];
     db.query(sql, params, function (err) {
@@ -67,19 +75,7 @@ exports.deleteThread = function (req, res) {
     });
 };
 
-exports.getThreadEdit = function (req, res) {
-    console.log('finding thread with id ' + req.params.id + ' in DB...');
-    let sql = "SELECT * FROM Thread WHERE ID = ?";
-    db.query(sql, req.params.id, function (err, result) {
-        if (err)
-            console.log(err);
-        else {
-            res.render('edit', {thread: result[0]});
-        }
-    });
-};
-
-exports.patchThreadEdit = function (req, res) {
+exports.editThread = function (req, res) {
     let sql = "UPDATE Thread SET Title = ?, Content = ? WHERE ID = ?";
     let params = [req.body.title, req.body.content, req.params.id];
     db.query(sql, params, function (err) {
@@ -91,12 +87,7 @@ exports.patchThreadEdit = function (req, res) {
     });
 };
 
-exports.getThreadCreateReply = function (req, res) {
-    console.log(req.params.id);
-    res.render('createreply', {id: req.params.id});
-};
-
-exports.postThreadCreateReply = function (req, res) {
+exports.createReply = function (req, res) {
     console.log(req.params.id);
     let sql = "INSERT INTO Reply (id, Content, ParentPost) VALUES (NULL, ?, ?)";
     let params = [req.body.content, req.params.id];

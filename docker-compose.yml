@@ -19,7 +19,7 @@ services:
       - './app:/app:rw'
     depends_on:
       - bb-db
-    command: bash -c 'npm install && DEV=true DOCKER=true npm start > /var/log/bb.log'
+    command: bash -c 'DOCKER=true npm start > /var/log/bb.log'
   
   bb-db:
     image: mysql:5.7

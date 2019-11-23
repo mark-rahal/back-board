@@ -1,9 +1,0 @@
-extends layout
-
-block content
-    form(method='POST' action='/thread/' + id + '/create/reply')
-        label Reply:
-        br
-        input.form-control(name='content', type='text')
-        br
-        input.btn.btn-primary(type='submit', value="Post Reply")

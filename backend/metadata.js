@@ -1,31 +1,24 @@
-function runningDevEnv() {
-    return 'DEV' in process.env;
-}
-
 function runningInDocker() {
     return 'DOCKER' in process.env;
 }
 
 exports.getConnectionConfig = () => {
-    if (runningDevEnv()) {
+    if (runningInDocker()) {
         var connectionConfig = {
-            dbHost: 'localhost',
+            dbHost: 'bb-db',
             dbUser: 'root',
             dbPassword: undefined,
             dbName: 'Backboard'
         };
-        if (runningInDocker()) {
-            connectionConfig.dbHost = 'bb-db';
-        }
         console.log(connectionConfig);
         return connectionConfig;
     }
     else {
-        //elastic beanstalk env vars
+        // use env vars
         var connectionConfig = {
-            dbHost: process.env.RDS_HOSTNAME,
-            dbUser: process.env.RDS_USERNAME,
-            dbPassword: process.env.RDS_PASSWORD,
+            dbHost: process.env.DB_HOSTNAME,
+            dbUser: process.env.DB_USERNAME,
+            dbPassword: process.env.DB_PASSWORD,
             dbName: 'Backboard'
         };
         return connectionConfig;
