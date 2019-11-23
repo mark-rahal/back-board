@@ -6,20 +6,35 @@ networks:
     driver: bridge
 
 services:
-  backboard:
+  bb-api:
     image: node:latest
-    container_name: backboard
+    container_name: bb-api
     tty: TRUE
     networks: 
       - bb-net
     ports:
       - '3000:3000'
-    working_dir: /app
+    working_dir: /backend
     volumes:
-      - './app:/app:rw'
+      - './backend:/backend:rw'
     depends_on:
       - bb-db
     command: bash -c 'DOCKER=true npm start > /var/log/bb.log'
+
+  bb-frontend:
+    image: node:latest
+    container_name: bb-frontend
+    tty: TRUE
+    networks: 
+      - bb-net
+    ports:
+      - '3001:3001'
+    working_dir: /frontend
+    volumes:
+      - ./frontend:/frontend:rw
+    depends_on:
+      - bb-db
+    command: bash -c 'npm start > /var/log/bb.log'
   
   bb-db:
     image: mysql:5.7
