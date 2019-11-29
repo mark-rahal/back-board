@@ -3,8 +3,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
-
 const app = express();
+
+const db = require('./models/db');
 const threadRouter = require('./routes/thread');
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
@@ -21,6 +22,10 @@ app.use(bodyParser.json());
 
 app.use('/', indexRouter);
 app.use('/thread', threadRouter);
-app.use('/auth', threadRouter);
+app.use('/auth', authRouter);
+
+db.connect();
+const user = require('./models/user');
+user.getUsers();
 
 module.exports = app;

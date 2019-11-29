@@ -16,10 +16,9 @@ import Browse from './Browse';
 import Login from './Login';
 
 class App extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {user: undefined};
-    this.handleLoginStateChange = this.handleLoginStateChange.bind(this);
   }
 
   handleLoginStateChange(value) {
@@ -42,9 +41,14 @@ class App extends React.Component {
           <Row>
             <Col></Col>
             <Col>
-              <Navbar bg='light' variant='light'>
+              <Navbar bg='light'>
                 <Nav className='mr-auto'>
-                <Link to='/login'>Login</Link>
+                  <LinkContainer to='/'>
+                    <Nav.Link href='#'>Browse</Nav.Link>
+                  </LinkContainer>
+                  <LinkContainer to='/login'>
+                    <Nav.Link href='#'>Login</Nav.Link>
+                  </LinkContainer>
                 </Nav>
               </Navbar>
             </Col>
@@ -53,11 +57,11 @@ class App extends React.Component {
           <Row>
             <Col>
               <Switch>
-                <Route path='/'>
-                  <Browse></Browse>
-                </Route>
                 <Route path='/login'>
                   <Login onLoginStateChange={this.handleLoginStateChange}></Login>
+                </Route>
+                <Route path='/'>
+                  <Browse></Browse>
                 </Route>
               </Switch>
             </Col>

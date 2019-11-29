@@ -3,5 +3,7 @@ const router = express.Router();
 
 router.post('/', function(req, res) {
   console.log(req.body);
-  res.sendStatus(200);
+  res.json(req.body);
 });
+
+module.exports = router;

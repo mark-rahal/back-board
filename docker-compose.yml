@@ -19,6 +19,7 @@ services:
       - './app:/app:rw'
     depends_on:
       - bb-db
+      - redis
     command: bash -c 'DOCKER=true yarn start > /var/log/bb.log'
 
   bb-db:
@@ -34,3 +35,10 @@ services:
     working_dir: /data
     volumes:
       - './data:/data:rw'
+  redis:
+    image: redis:latest
+    container_name: redis
+    networks:
+      - bb-net
+    ports:
+      - '6379:6379'

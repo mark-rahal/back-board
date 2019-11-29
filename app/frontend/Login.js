@@ -8,8 +8,6 @@ import Button from 'react-bootstrap/Button';
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.auth = this.auth.bind(this);
   }
 
   handleChange(e) {
@@ -21,13 +19,18 @@ class Login extends React.Component {
     e.preventDefault();
     const data = new FormData(e.target);
     const credentials = { username: data.get('username'), password: data.get('password') }
-    console.log(credentials);
     var options = {
       method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(credentials)
     };
     fetch('/auth', options).then(function(res) {
-      console.log(res);
+      res.json().then(function(data) {
+        console.log(data);
+      });
     });
   }
 
@@ -40,12 +43,12 @@ class Login extends React.Component {
               <Form onSubmit={this.auth}>
                 <Form.Group>
                   <Form.Label htmlFor='username'>Username</Form.Label>
-                  <Form.Control type='text' id='username' placeholder='Username'></Form.Control>
+                  <Form.Control type='text' name='username' placeholder='Username'></Form.Control>
                 </Form.Group>
-                <Form>
+                <Form.Group>
                   <Form.Label htmlFor='password'>Password</Form.Label>
-                  <Form.Control type='password' id='password' placeholder='Password'></Form.Control>
-                </Form>
+                  <Form.Control type='password' name='password' placeholder='Password'></Form.Control>
+                </Form.Group>
                 <Button type='submit' variant='primary'>Submit</Button>
               </Form>
             </Col>
